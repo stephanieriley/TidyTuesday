@@ -73,13 +73,12 @@ games %>%
   scale_y_continuous(expand = expansion(mult = c(0, .1))) +
   labs(x="Year", y="Percetnage of games",
        title = "Change in percentage of card games versus non-card games",
-       subtitle = "Data from 1970 - present",
+       subtitle = "Board games published from 1970 - present",
        caption = "Data source: Kaggle via TidyTuesday") +
   theme_classic() +
   theme(panel.grid = element_blank(),
         panel.border = element_blank(),
-        axis.line = element_blank(),
-        text = element_text(family = "nunsans")) +
+        axis.line = element_blank()) +
   annotation_custom(grobTree(textGrob("Card game", x=0.7,  y=0.75,
                                       gp=gpar(col="white", fontsize=16)))) +
   annotation_custom(grobTree(textGrob("Non-card game", x=0.7,  y=0.5,
