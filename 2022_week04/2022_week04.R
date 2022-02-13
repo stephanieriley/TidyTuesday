@@ -6,6 +6,8 @@
 #Packages
 library(tidyverse)
 library(ggtext)
+library(grid)
+library(showtext)
 
 #Data
 tuesdata <- tidytuesdayR::tt_load(2022, week = 4)
@@ -24,6 +26,8 @@ games<- games %>%
   mutate(card = case_when(str_detect(boardgamecategory, "Card Game") ~ "Card game",
                           is.na(boardgamecategory) ~ "NA",
                           TRUE ~ "Non-card game"))
+
+
 
 #Plot of mean playing time of games by card category
 games %>%
@@ -51,6 +55,36 @@ games %>%
         plot.background = element_rect(fill = "#ffefa5"))
 
 
+
+#Plot proportion of card games over time
+font_add_google(name = "Nunito Sans", family = "nunsans")
+showtext_auto()
+
+games %>%
+  filter(yearpublished>1970 & yearpublished<2022,
+         card!="NA") %>%
+  group_by(yearpublished, card) %>%
+  summarise(n = n()) %>%
+  mutate(prop = n / sum(n) *100) %>%
+  ggplot(aes(x=yearpublished, y = prop, fill = card)) +
+  geom_area(position = "stack", show.legend = F) +
+  scale_fill_manual(values = c("#769BD1", "#F63C26")) +
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_y_continuous(expand = expansion(mult = c(0, .1))) +
+  labs(x="Year", y="Percetnage of games",
+       title = "Change in percentage of card games versus non-card games",
+       subtitle = "Data from 1970 - present",
+       caption = "Data source: Kaggle via TidyTuesday") +
+  theme_classic() +
+  theme(panel.grid = element_blank(),
+        panel.border = element_blank(),
+        axis.line = element_blank(),
+        text = element_text(family = "nunsans")) +
+  annotation_custom(grobTree(textGrob("Card game", x=0.7,  y=0.75,
+                                      gp=gpar(col="white", fontsize=16)))) +
+  annotation_custom(grobTree(textGrob("Non-card game", x=0.7,  y=0.5,
+                                      gp=gpar(col="white", fontsize=16))))
+  
 
 
 
