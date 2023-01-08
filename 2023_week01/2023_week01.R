@@ -145,16 +145,19 @@ blank_pitch(grass_col = "#000000", background_col = "#000000") +
   geom_rect(aes(xmin=90, xmax=120,
                 ymin=0, ymax=80),
             colour="#ffffff", fill="#000000", alpha=0.2) +
-  geom_point(data = matchgoal, aes(x = loc_x, y = loc_y, col = shot.body_part.name), size=4) +
+  geom_point(data = matchgoal, aes(x = loc_x, y = loc_y, col = shot.body_part.name), 
+             size=4 #, 
+             # shape = 21, This gives a squiggly line???
+             # col = "#000000"
+             ) +
   scale_colour_manual(breaks = c("Left Foot", "Right Foot", "Head", "Other"),
-                      values = c("#07b1e8", "#d30107", "#fee518", "#68ff3f")) +
+                    values = c("#07b1e8", "#d30107", "#fee518", "#68ff3f")) +
   pitch_markings(grass_col = "#000000", background_col = "#000000") +
   annotate("richtext", x=94.5, y=0.2, hjust=0, 
            label="Goals scored with<br><span style='color:#07b1e8;'>left foot</span>, <span style='color:#d30107;'>right foot</span>, <span style='color:#fee518;'>head</span>, <br>or <span style='color:#68ff3f;'>other</span> body part in the<br>2019 Women's World Cup", 
            colour = "#ffffff",
            family = "nunsans",
            size = 6,
-           parse=T,
            fill = NA, label.color = NA) +
   labs(caption = "Data provided by StatsBomb (https://statsbomb.com/)   \n") +
   theme(plot.background = element_rect(fill = "#000000", color = "#000000"),
