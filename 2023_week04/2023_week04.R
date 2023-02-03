@@ -30,15 +30,15 @@ length(unique(loadout$name))
 
 #how long you survive given your loadout item
 #text next to it with how many used this item
-item_join<- survivalists %>%
-  select(name, days_lasted) %>%
-  left_join(select(loadout, name, item), by = "name")
 
-item_join %>%
+#Checking this will give only one listing of an item per contestant
+survivalists %>%
+  select(name, days_lasted) %>%
+  left_join(select(loadout, name, item), by = "name") %>%
   count(item, name)
 
 
-
+#Collect data
 item_summary<- survivalists %>%
   select(name, days_lasted) %>%
   left_join(select(loadout, name, item), by = "name") %>% #Join datasets
@@ -56,10 +56,8 @@ item_summary<- survivalists %>%
          #Where only one person used item, sd is record as NA -> change to 0
          sddays_noNA = case_when(is.na(sddays) ~ 0,
                                  TRUE ~ sddays),
-         lower = meandays - 1.96*sddays_noNA,
-         upper = meandays + 1.96*sddays_noNA,
-         #Cut off confidence intervals at 0
-         lower = pmax(lower, 0)) %>%
+         lower = pmax(meandays - 1.96*sddays_noNA, 0), #Cut off confidence intervals at 0
+         upper = meandays + 1.96*sddays_noNA) %>%
   arrange(desc(meandays)) %>%
   slice_max(meandays, n = 15)
 
