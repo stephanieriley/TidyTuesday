@@ -72,7 +72,7 @@ p<- ggplot(big_tech_top) +
             family = "orb") +
   
   labs(title = "Volume of stocks traded per year",
-       subtitle = "The dashed white line indicates that overall volume of stocks\ntraded is decreasing over time",
+       subtitle = "The dashed white line indicates that overall volume of stocks\ntraded is (slightly) decreasing over time",
        caption = "@stephril3y\nData from Yahoo Finance via TidyTuesday",
        x = "",
        y = "Volume of stocks traded (billions)") +
